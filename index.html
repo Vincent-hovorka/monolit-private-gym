@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8">
+<title>MONOLIT Private Gym</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Soukromá posilovna v Místku. Celá posilovna jen pro vás, 24/7. Otevíráme 1. 5. 2027. Předprodej: prvních 100 vstupů za polovic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one dark slab of iron, a brass keypad as the signature, sections stacked like plates on a bar */
+:root {
+  --iron: #111315;
+  --slab: #1a1d20;
+  --edge: #2b3034;
+  --chalk: #ece8e1;
+  --dust: #9a9890;
+  --brass: #c8a25a;
+  --brass-deep: #8f7139;
+  --ok: #7fb38a;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-body: "Manrope", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1180px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--iron);
+  color: var(--chalk);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--iron);
+}
+a { color: inherit; }
+.wrap {
+  max-width: var(--wrap); margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.05; letter-spacing: -0.01em; }
+p { margin: 0; }
+.label {
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass);
+}
+.muted { color: var(--dust); }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+
+/* Header */
+header.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+  background: color-mix(in srgb, var(--iron) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--edge);
+}
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.logo { font-family: var(--f-display); font-weight: 800; font-size: 18px; letter-spacing: 0.12em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo span.sub { font-family: var(--f-mono); font-weight: 400; font-size: 11px; letter-spacing: 0.18em; color: var(--dust); }
+.logo .mark { width: 14px; height: 22px; background: var(--brass); display: inline-block; }
+nav.links { display: flex; gap: 28px; font-size: 14px; }
+nav.links a { text-decoration: none; color: var(--dust); }
+nav.links a:hover { color: var(--chalk); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--f-body); font-weight: 700; font-size: 15px; letter-spacing: 0.02em;
+  padding: 14px 22px; border: 1px solid var(--brass); background: var(--brass); color: var(--iron);
+  text-decoration: none; cursor: pointer; transition: background .2s, color .2s;
+}
+.btn:hover { background: transparent; color: var(--brass); }
+.btn.ghost { background: transparent; color: var(--chalk); border-color: var(--edge); }
+.btn.ghost:hover { border-color: var(--brass); color: var(--brass); }
+.btn.small { padding: 10px 16px; font-size: 14px; }
+
+/* Hero */
+.hero { padding-block: clamp(48px, 8vw, 104px) clamp(48px, 7vw, 88px); border-bottom: 1px solid var(--edge); position: relative; overflow: hidden; }
+.hero .grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.hero h1 { font-size: clamp(40px, 7.2vw, 96px); font-weight: 800; text-transform: uppercase; }
+.hero h1 em { font-style: normal; color: var(--brass); }
+.hero .lead { margin-top: 28px; font-size: clamp(18px, 1.6vw, 21px); max-width: 34em; color: #d3cfc7; }
+.hero .facts { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px 26px; font-family: var(--f-mono); font-size: 13px; color: var(--dust); }
+.hero .facts b { color: var(--chalk); font-weight: 600; }
+.hero .ctas { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Keypad: the signature */
+.keypad {
+  background: linear-gradient(160deg, #23272b, #16191c);
+  border: 1px solid var(--edge); padding: 26px; max-width: 360px; justify-self: end; width: 100%;
+  box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.keypad .screen {
+  background: #0b0d0e; border: 1px solid #222629; padding: 16px 18px; font-family: var(--f-mono);
+}
+.keypad .screen .row { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .14em; color: var(--dust); text-transform: uppercase; }
+.keypad .code { margin-top: 10px; display: flex; gap: 10px; font-size: 34px; font-weight: 600; color: var(--brass); }
+.keypad .code i { font-style: normal; width: 1ch; text-align: center; border-bottom: 2px solid var(--brass-deep); }
+.keypad .code i.wait { color: #3a3f43; }
+.keypad .keys { margin-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.keypad .keys span {
+  aspect-ratio: 1.6; display: grid; place-items: center; font-family: var(--f-mono); font-size: 16px;
+  border: 1px solid #2c3135; color: #b9b5ad; background: #15181b; max-width: 100%;
+}
+.keypad .keys span.lit { background: var(--brass); color: var(--iron); border-color: var(--brass); }
+.keypad .status { margin-top: 16px; display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--dust); }
+.keypad .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+
+/* Offer band */
+.offer { background: var(--brass); color: var(--iron); }
+.offer .wrap { padding-block: clamp(40px, 6vw, 72px); display: grid; grid-template-columns: 1fr auto; gap: 32px 56px; align-items: center; }
+.offer .label { color: var(--iron); opacity: .7; }
+.offer h2 { margin-top: 12px; font-size: clamp(30px, 4.6vw, 60px); font-weight: 800; text-transform: uppercase; }
+.offer p.t { margin-top: 16px; font-size: 18px; max-width: 38em; font-weight: 500; }
+.price-tag { display: grid; gap: 4px; text-align: right; font-family: var(--f-display); }
+.price-tag s { font-size: 22px; opacity: .55; font-weight: 400; }
+.price-tag strong { font-size: clamp(56px, 8vw, 104px); font-weight: 800; line-height: .9; }
+.price-tag small { font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.meter { grid-column: 1 / -1; display: grid; gap: 10px; }
+.meter .bar { height: 10px; background: rgba(17,19,21,.18); position: relative; }
+.meter .bar b { position: absolute; inset: 0 auto 0 0; background: var(--iron); width: 0%; transition: width 1.2s ease; }
+.meter .nums { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-family: var(--f-mono); font-size: 13px; font-weight: 600; }
+.countdown { display: flex; gap: 18px; font-variant-numeric: tabular-nums; }
+
+/* Sections */
+section.block { padding-block: clamp(64px, 9vw, 120px); border-bottom: 1px solid var(--edge); }
+.head { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 24px 64px; align-items: end; margin-bottom: clamp(36px, 5vw, 60px); }
+.head h2 { font-size: clamp(30px, 4.2vw, 54px); font-weight: 600; margin-top: 14px; }
+.head p { color: #c9c5bd; max-width: 34em; }
+
+/* Steps: a real sequence, so numbered */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--edge); }
+.step { padding: 28px 24px 8px 0; border-right: 1px solid var(--edge); display: grid; gap: 14px; align-content: start; min-width: 0; }
+.step + .step { padding-left: 24px; }
+.step:last-child { border-right: 0; }
+.step .n { font-family: var(--f-mono); font-size: 13px; color: var(--brass); }
+.step h3 { font-size: 20px; font-weight: 600; }
+.step p { color: var(--dust); font-size: 15px; }
+
+/* Slot timeline */
+.slot { margin-top: 48px; background: var(--slab); border: 1px solid var(--edge); padding: 24px; }
+.slot .track { margin-top: 18px; display: grid; grid-template-columns: 5fr 80fr 5fr; height: 44px; font-family: var(--f-mono); font-size: 12px; }
+.slot .track div { display: grid; place-items: center; text-align: center; padding: 0 6px; overflow: hidden; }
+.slot .t1 { background: #24282c; color: var(--dust); }
+.slot .t2 { background: linear-gradient(90deg, var(--brass-deep), var(--brass)); color: var(--iron); font-weight: 600; letter-spacing: .1em; }
+.slot .t3 { background: #24282c; color: var(--dust); }
+.slot .scale { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--f-mono); font-size: 12px; color: var(--dust); }
+
+/* Equipment */
+.kit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--edge); border: 1px solid var(--edge); }
+.kit div { background: var(--iron); padding: 26px 24px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.kit h3 { font-family: var(--f-body); font-size: 17px; font-weight: 700; letter-spacing: 0; }
+.kit p { color: var(--dust); font-size: 15px; }
+.kit .spec { font-family: var(--f-mono); font-size: 12px; color: var(--brass); letter-spacing: .06em; }
+
+/* Why private */
+.why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.why div { display: grid; gap: 12px; align-content: start; border-top: 2px solid var(--brass); padding-top: 22px; min-width: 0; }
+.why h3 { font-size: 22px; font-weight: 600; }
+.why p { color: var(--dust); }
+
+/* Pricing table */
+.prices { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.plan { border: 1px solid var(--edge); padding: 32px; display: grid; gap: 18px; align-content: start; min-width: 0; }
+.plan.feat { border-color: var(--brass); background: linear-gradient(180deg, rgba(200,162,90,.08), transparent 60%); }
+.plan .amt { font-family: var(--f-display); font-size: clamp(44px, 5vw, 64px); font-weight: 800; line-height: 1; }
+.plan .amt small { font-family: var(--f-mono); font-size: 14px; font-weight: 400; color: var(--dust); letter-spacing: .04em; }
+.plan ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; color: #cfcbc3; font-size: 15px; }
+.plan li { display: flex; gap: 12px; }
+.plan li::before { content: ""; flex: 0 0 8px; height: 8px; margin-top: 8px; background: var(--brass); }
+.plan.std li::before { background: var(--edge); }
+
+/* Presale form */
+.buy { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+.buy .pitch { display: grid; gap: 22px; }
+.buy .pitch h2 { font-size: clamp(32px, 4.4vw, 56px); font-weight: 800; text-transform: uppercase; }
+.buy .pitch ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.buy .pitch li { display: flex; gap: 12px; color: #cfcbc3; }
+.buy .pitch li::before { content: "✓"; color: var(--brass); font-weight: 700; }
+form.card { background: var(--slab); border: 1px solid var(--edge); padding: clamp(22px, 3vw, 36px); display: grid; gap: 18px; }
+.field { display: grid; gap: 8px; }
+.field label { font-size: 13px; font-weight: 700; letter-spacing: .04em; }
+.field input {
+  font: inherit; font-size: 16px; color: var(--chalk); background: var(--iron); border: 1px solid var(--edge);
+  padding: 13px 14px; width: 100%;
+}
+.field input:focus { border-color: var(--brass); outline: none; }
+.stepper { display: grid; grid-template-columns: 52px 1fr 52px; border: 1px solid var(--edge); }
+.stepper button { font: inherit; font-size: 22px; background: var(--iron); color: var(--chalk); border: 0; cursor: pointer; }
+.stepper button:hover { color: var(--brass); }
+.stepper input { text-align: center; border: 0; border-left: 1px solid var(--edge); border-right: 1px solid var(--edge); font-family: var(--f-mono); font-size: 20px; font-weight: 600; }
+.quick { display: flex; flex-wrap: wrap; gap: 8px; }
+.quick button { font: inherit; font-family: var(--f-mono); font-size: 13px; padding: 7px 12px; background: transparent; color: var(--dust); border: 1px solid var(--edge); cursor: pointer; }
+.quick button:hover, .quick button[aria-pressed="true"] { color: var(--iron); background: var(--brass); border-color: var(--brass); }
+.sum { border-top: 1px dashed var(--edge); padding-top: 16px; display: grid; gap: 6px; font-family: var(--f-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.sum .r { display: flex; justify-content: space-between; gap: 12px; }
+.sum .total { font-size: 20px; font-weight: 600; color: var(--chalk); }
+.sum .save { color: var(--ok); }
+.check { display: flex; gap: 10px; font-size: 13px; color: var(--dust); align-items: flex-start; }
+.check input { margin-top: 3px; accent-color: var(--brass); }
+.form-msg { font-size: 14px; padding: 14px 16px; border: 1px solid var(--edge); }
+.form-msg.ok { border-color: var(--ok); color: var(--ok); }
+.form-msg.err { border-color: #c77a6a; color: #e2a495; }
+.hp { position: absolute; left: -9999px; }
+
+/* FAQ */
+.faq { display: grid; gap: 0; border-top: 1px solid var(--edge); max-width: 860px; }
+.faq details { border-bottom: 1px solid var(--edge); }
+.faq summary { cursor: pointer; list-style: none; padding: 22px 40px 22px 0; font-weight: 700; font-size: 18px; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 18px; font-family: var(--f-mono); font-size: 22px; color: var(--brass); }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { padding: 0 0 22px; color: var(--dust); max-width: 62ch; }
+
+footer { padding-block: 56px 40px; }
+footer .wrap { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 32px; }
+footer h4 { margin: 0 0 10px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--brass); font-weight: 400; }
+footer p { color: var(--dust); font-size: 14px; }
+footer .base { grid-column: 1 / -1; border-top: 1px solid var(--edge); padding-top: 22px; font-family: var(--f-mono); font-size: 12px; color: #6e6c66; }
+
+/* Prize draw */
+.draw { border-bottom: 1px solid var(--edge); background: var(--slab); }
+.draw .wrap { padding-block: clamp(56px, 8vw, 104px); display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+.draw figure { margin: 0; position: relative; max-width: 100%; border: 1px solid var(--edge); background: var(--iron); min-width: 0; }
+.draw figure img { width: 100%; aspect-ratio: 4 / 3; max-width: 100%; object-fit: cover; object-position: center 40%; display: block; background: #8fb3d9; }
+.draw figcaption { padding: 12px 14px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; color: var(--dust); border-top: 1px solid var(--edge); }
+.draw .badge { position: absolute; top: 12px; right: 12px; background: var(--brass); color: var(--iron); font-family: var(--f-display); font-weight: 800; font-size: 12px; padding: 7px 10px; text-transform: uppercase; }
+.draw h2 { font-size: clamp(30px, 4.4vw, 56px); font-weight: 800; text-transform: uppercase; margin-top: 14px; }
+.draw h2 em { font-style: normal; color: var(--brass); }
+.draw .t { margin-top: 18px; color: #d3cfc7; font-size: 18px; max-width: 34em; }
+.draw dl { margin: 28px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--edge); border: 1px solid var(--edge); }
+.draw dl div { background: var(--iron); padding: 16px 18px; min-width: 0; }
+.draw dt { font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dust); }
+.draw dd { margin: 4px 0 0; font-weight: 700; font-size: 17px; }
+.draw .ctas { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.draw .fine { font-size: 13px; color: var(--dust); }
+
+.mobile-cta { display: none; }
+
+@media (max-width: 900px) {
+  nav.links { display: none; }
+  .hero .grid, .offer .wrap, .head, .buy, .prices, .draw .wrap { grid-template-columns: 1fr; }
+  .keypad { justify-self: start; }
+  .price-tag { text-align: left; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .step:nth-child(2) { border-right: 0; }
+  .step:nth-child(3) { padding-left: 0; }
+  .kit, .why { grid-template-columns: 1fr 1fr; }
+  footer .wrap { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .steps, .kit, .why { grid-template-columns: 1fr; }
+  .step, .step + .step { padding-left: 0; border-right: 0; border-bottom: 1px solid var(--edge); padding-bottom: 24px; }
+  .header-cta { display: none; }
+  .mobile-cta {
+    display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 9;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: var(--iron); border-top: 1px solid var(--edge);
+  }
+  .mobile-cta .btn { width: 100%; }
+  footer { padding-bottom: 110px; }
+  .slot .t1, .slot .t3 { font-size: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .meter .bar b { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="MONOLIT Private Gym"><i class="mark"></i>MONOLIT <span class="sub">PRIVATE GYM</span></a>
+    <nav class="links" aria-label="Hlavní navigace">
+      <a href="#jak-to-funguje">Jak to funguje</a>
+      <a href="#vybaveni">Vybavení</a>
+      <a href="#cenik">Ceník</a>
+      <a href="#otazky">Otázky</a>
+    </nav>
+    <a class="btn small header-cta" href="#predprodej">Koupit vstupy za ½</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap grid">
+      <div>
+        <p class="label">Místek · Otevíráme 1. 5. 2027</p>
+        <h1 style="margin-top:18px">Celá posilovna. <em>Jen pro vás.</em></h1>
+        <p class="lead">Rezervujete si 80 minut, dostanete kód ke dveřím a celá posilovna je vaše. Žádné fronty na stroje, žádné publikum, vaše hudba. Klidně s kamarádem nebo trenérem.</p>
+        <div class="facts">
+          <span><b>24/7</b> každý den</span>
+          <span><b>80 min</b> na rezervaci</span>
+          <span><b>až 3 osoby</b> v ceně</span>
+        </div>
+        <div class="ctas">
+          <a class="btn" href="#predprodej">Chci vstupy za polovic</a>
+          <a class="btn ghost" href="#jak-to-funguje">Jak to funguje</a>
+        </div>
+      </div>
+      <div class="keypad" aria-label="Ukázka přístupového kódu">
+        <div class="screen">
+          <div class="row"><span>Váš kód</span><span id="kp-time">So 06:30</span></div>
+          <div class="code" id="kp-code"><i>4</i><i>8</i><i>1</i><i class="wait">·</i></div>
+        </div>
+        <div class="keys" aria-hidden="true">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>✕</span><span>0</span><span class="lit">✓</span>
+        </div>
+        <div class="status"><i class="dot"></i><span>Rezervace 06:30 až 07:50 · posilovna volná</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="offer" id="nabidka">
+    <div class="wrap">
+      <div>
+        <p class="label">Předprodej před otevřením</p>
+        <h2>Prvních 100 vstupů za polovic</h2>
+        <p class="t">Než otevřeme, prodáme 100 vstupů za 120 Kč místo 240 Kč. Kupte si jich, kolik chcete. Všechny se připíšou na vaše jméno a použijete je od prvního dne.</p>
+      </div>
+      <div class="price-tag" aria-label="Cena za vstup v předprodeji 120 Kč místo 240 Kč">
+        <s>240 Kč</s>
+        <strong>120 Kč</strong>
+        <small>za 80 minut · až 3 osoby</small>
+      </div>
+      <div class="meter">
+        <div class="bar" role="progressbar" aria-label="Prodané vstupy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="meter"><b id="meter-fill"></b></div>
+        <div class="nums">
+          <span id="left-text">Zbývá 100 ze 100 vstupů</span>
+          <span class="countdown" id="countdown">Do otevření: 1. 5. 2027</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="draw" id="losovani">
+    <div class="wrap">
+      <figure>
+        <img id="chata-img" src="chata-emma.jpg" alt="Zasněžená roubenka Emma v Čierném na Kysucích" onerror="this.remove()">
+        <span class="badge">Výhra</span>
+        <figcaption>Horská roubenka Emma · Čierne, Slovensko</figcaption>
+      </figure>
+      <div>
+        <p class="label">Losování o víkend na horách</p>
+        <h2>Vyhrajte 3 dny v roubence <em>pro 8 lidí</em></h2>
+        <p class="t">Prvních 200 lidí, kteří si koupí alespoň jeden vstup, automaticky postupuje do losování o 3 dny v horské roubence na slovenských Kysucích. Ideální na lyže: skiareál je 20 minut autem.</p>
+        <dl>
+          <div><dt>Délka pobytu</dt><dd>3 dny</dd></div>
+          <div><dt>Kapacita</dt><dd>až 8 osob</dd></div>
+          <div><dt>Lyžování</dt><dd>skiareál 20 min autem</dd></div>
+          <div><dt>Losujeme</dt><dd>1. 5. 2027 při otevření</dd></div>
+        </dl>
+        <div class="ctas">
+          <a class="btn" href="#predprodej">Koupit vstup a hrát o výhru</a>
+          <span class="fine">Stačí 1 vstup. Každý kupující má v losování jeden los.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="jak-to-funguje">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label">Jak to funguje</p>
+          <h2>Od rezervace k první sérii za dvě minuty</h2>
+        </div>
+        <p>Na recepci nikdo nesedí, protože ho nepotřebujete. Všechno vyřídíte z telefonu a posilovna je připravená, když přijdete.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="n">01</span><h3>Vyberete čas</h3><p>V online kalendáři zvolíte volný 80minutový blok. Ve dne, v noci, o víkendu.</p></div>
+        <div class="step"><span class="n">02</span><h3>Přijde kód</h3><p>Před začátkem vám pošleme SMS a e-mail s jednorázovým kódem ke dveřím.</p></div>
+        <div class="step"><span class="n">03</span><h3>Trénujete sami</h3><p>Celý prostor je jen váš. Pustíte si vlastní hudbu přes reproduktor a cvičíte, jak chcete.</p></div>
+        <div class="step"><span class="n">04</span><h3>Osprchujete se a jdete</h3><p>Uklidíte činky na místo, dáte si sprchu a odejdete. Dveře se za vámi zamknou.</p></div>
+      </div>
+      <div class="slot" aria-label="Rozvržení jedné rezervace">
+        <p class="label">Jedna rezervace</p>
+        <div class="track">
+          <div class="t1">příchod</div>
+          <div class="t2">80 MINUT JEN PRO VÁS</div>
+          <div class="t3">odchod</div>
+        </div>
+        <div class="scale"><span>06:30</span><span>07:10</span><span>07:50</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label">Proč soukromá posilovna</p>
+          <h2>Trénink bez kompromisů</h2>
+        </div>
+        <p>Pro ty, kdo nechtějí čekat na stroj, poslouchat cizí hudbu ani mít za zády diváky.</p>
+      </div>
+      <div class="why">
+        <div><h3>Soukromí</h3><p>Nikdo se nedívá. Ideální, když začínáte, vracíte se po pauze nebo prostě chcete klid.</p></div>
+        <div><h3>Váš čas</h3><p>Otevřeno nonstop. V pět ráno před prací i v jedenáct večer po ní.</p></div>
+        <div><h3>Vaši lidé</h3><p>Přiveďte partnera, kamaráda nebo osobního trenéra. Až 3 osoby za cenu jednoho vstupu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="vybaveni">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label">Vybavení</p>
+          <h2>Všechno, co potřebujete. Nic navíc.</h2>
+        </div>
+        <p>Profesionální stroje vybrané tak, abyste za 80 minut zvládli kompletní trénink celého těla.</p>
+      </div>
+      <div class="kit">
+        <div><span class="spec">SÍLA</span><h3>Power rack a olympijská osa</h3><p>Dřepy, bench, mrtvé tahy. Kotouče až 150 kg.</p></div>
+        <div><span class="spec">KLADKY</span><h3>Multifunkční kladková věž</h3><p>Stahování, přítahy, tricepsy a desítky dalších cviků.</p></div>
+        <div><span class="spec">NOHY</span><h3>Leg press</h3><p>Bezpečný těžký trénink nohou bez jistícího partnera.</p></div>
+        <div><span class="spec">ČINKY</span><h3>Jednoručky 2 až 40 kg</h3><p>Kompletní řada a nastavitelná lavice.</p></div>
+        <div><span class="spec">KARDIO</span><h3>Pás, veslo, kolo</h3><p>Na zahřátí, intervaly i klidné dojetí.</p></div>
+        <div><span class="spec">KOMFORT</span><h3>Sprcha, ručník, klimatizace</h3><p>Ručníky a kosmetika v ceně. Bluetooth reproduktor pro vaši hudbu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="cenik">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label">Ceník</p>
+          <h2>Jedna cena. Žádné členství.</h2>
+        </div>
+        <p>Platíte jen za vstupy, které využijete. Žádné smlouvy, žádné měsíční poplatky.</p>
+      </div>
+      <div class="prices">
+        <div class="plan feat">
+          <p class="label">Předprodej · jen 100 vstupů</p>
+          <div class="amt">120 Kč <small>/ 80 min</small></div>
+          <ul>
+            <li>Polovina běžné ceny</li>
+            <li>Kupte si libovolný počet vstupů</li>
+            <li>Vstupy na vaše jméno, platí 12 měsíců od otevření</li>
+            <li>Až 3 osoby v ceně</li>
+          </ul>
+          <a class="btn" href="#predprodej">Koupit v předprodeji</a>
+        </div>
+        <div class="plan std">
+          <p class="label">Od 1. 5. 2027</p>
+          <div class="amt">240 Kč <small>/ 80 min</small></div>
+          <ul>
+            <li>Běžná cena jednoho vstupu</li>
+            <li>Rezervace online 24/7</li>
+            <li>Až 3 osoby v ceně</li>
+            <li>Sprcha a ručník v ceně</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="predprodej">
+    <div class="wrap buy">
+      <div class="pitch">
+        <p class="label">Předprodej</p>
+        <h2>Zajistěte si vstupy za polovic</h2>
+        <p class="muted">Jakmile prodáme 100 vstupů, předprodej končí a platí běžná cena 240 Kč.</p>
+        <ul>
+          <li>Kupte si 1 vstup, 10 vstupů, nebo všech 100</li>
+          <li>Vstupy se připíšou na vaše jméno</li>
+          <li>Použijete je od 1. 5. 2027, celých 12 měsíců</li>
+          <li>Platební údaje a QR platbu pošleme e-mailem do 24 hodin</li>
+          <li>Prvních 200 kupujících hraje o 3 dny v roubence na Slovensku</li>
+        </ul>
+      </div>
+
+      <form class="card" id="presale" name="predprodej" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="predprodej">
+        <p class="hp"><label>Nevyplňujte: <input name="bot-field" id="bot-field"></label></p>
+
+        <div class="field">
+          <label for="f-name">Jméno a příjmení</label>
+          <input id="f-name" name="jmeno" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="f-email">E-mail</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="f-phone">Telefon</label>
+          <input id="f-phone" name="telefon" type="tel" autocomplete="tel" placeholder="+420" required>
+        </div>
+        <div class="field">
+          <label for="f-qty">Počet vstupů</label>
+          <div class="stepper">
+            <button type="button" id="q-minus" aria-label="Ubrat vstup">−</button>
+            <input id="f-qty" name="pocet_vstupu" type="number" inputmode="numeric" min="1" max="100" value="10">
+            <button type="button" id="q-plus" aria-label="Přidat vstup">+</button>
+          </div>
+          <div class="quick" id="quick">
+            <button type="button" data-q="5">5</button>
+            <button type="button" data-q="10" aria-pressed="true">10</button>
+            <button type="button" data-q="20">20</button>
+            <button type="button" data-q="50">50</button>
+          </div>
+        </div>
+        <input type="hidden" name="cena_celkem" id="f-total">
+
+        <div class="sum" aria-live="polite">
+          <div class="r"><span class="muted">Běžná cena</span><span id="s-full">2 400 Kč</span></div>
+          <div class="r save"><span>Ušetříte</span><span id="s-save">1 200 Kč</span></div>
+          <div class="r total"><span>Celkem</span><span id="s-total">1 200 Kč</span></div>
+        </div>
+
+        <label class="check" for="f-gdpr">
+          <input type="checkbox" id="f-gdpr" name="souhlas" required>
+          <span>Souhlasím se zpracováním osobních údajů za účelem vyřízení objednávky.</span>
+        </label>
+
+        <button class="btn" type="submit" id="f-submit">Závazně objednat vstupy</button>
+        <div class="form-msg" id="form-msg" role="status" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="block" id="otazky">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <p class="label">Otázky</p>
+          <h2>Co se lidé ptají</h2>
+        </div>
+      </div>
+      <div class="faq">
+        <details><summary>Kolik vstupů si můžu koupit?</summary><p>Kolik chcete. Limit je jen celkových 100 vstupů v předprodeji. Kdo dřív přijde, ten ušetří.</p></details>
+        <details><summary>Můžu vstupy dát někomu jinému?</summary><p>Vstupy jsou na vaše jméno a rezervujete je vy. Na každou rezervaci ale můžete vzít až dva další lidi, takže je využije i rodina nebo kamarádi.</p></details>
+        <details><summary>Jak dlouho vstupy platí?</summary><p>12 měsíců od otevření, tedy do 30. 4. 2028.</p></details>
+        <details><summary>Je tam někdo z personálu?</summary><p>Ne. Prostor hlídají kamery a v případě potřeby nám zavoláte. Díky tomu můžeme mít otevřeno nonstop.</p></details>
+        <details><summary>Můžu přijít s osobním trenérem?</summary><p>Ano. Trenér se počítá jako jedna ze tří osob a neplatí nic navíc.</p></details>
+        <details><summary>Kde přesně posilovna bude?</summary><p>V Místku, s parkováním u vchodu. Přesnou adresu pošleme všem, kdo koupí vstupy v předprodeji, jako prvním.</p></details>
+        <details><summary>Jak funguje losování o roubenku?</summary><p>Do losování postupuje prvních 200 lidí, kteří zaplatí alespoň jeden vstup. Každý má jeden los bez ohledu na počet koupených vstupů. Losujeme 1. 5. 2027 v den otevření a výherce kontaktujeme e-mailem. Pobyt na 3 dny pro až 8 osob v Horské roubence Emma v Čierném si vyberete podle volných termínů chaty.</p></details>
+        <details><summary>Co když posilovna neotevře?</summary><p>Pokud bychom neotevřeli do 1. 5. 2027, vrátíme vám celou částku.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="logo" href="#top"><i class="mark"></i>MONOLIT <span class="sub">PRIVATE GYM</span></a>
+      <p style="margin-top:14px">Soukromá posilovna ve Frýdku-Místku. Celá posilovna jen pro vás, 24 hodin denně.</p>
+    </div>
+    <div>
+      <h4>Kde</h4>
+      <p>Místek, Frýdek-Místek<br>Přesná adresa brzy</p>
+    </div>
+    <div>
+      <h4>Otevřeno</h4>
+      <p>Od 1. 5. 2027<br>Nonstop, 7 dní v týdnu</p>
+    </div>
+    <p class="base">© 2027 MONOLIT Private Gym · Frýdek-Místek</p>
+  </div>
+</footer>
+
+<div class="mobile-cta"><a class="btn" href="#predprodej">Koupit vstupy za 120 Kč</a></div>
+
+<script>
+(function () {
+  // Update SOLD as presale orders come in; the bar and counter follow.
+  var SOLD = 0, TOTAL = 100, PRICE = 120, FULL = 240;
+  var OPEN = new Date("2027-05-01T00:00:00+02:00");
+
+  var left = Math.max(0, TOTAL - SOLD);
+  var fmt = function (n) { return n.toLocaleString("cs-CZ") + " Kč"; };
+  document.getElementById("left-text").textContent = "Zbývá " + left + " ze " + TOTAL + " vstupů";
+  var meter = document.getElementById("meter");
+  meter.setAttribute("aria-valuenow", SOLD);
+  requestAnimationFrame(function () {
+    document.getElementById("meter-fill").style.width = Math.max(2, (SOLD / TOTAL) * 100) + "%";
+  });
+
+  var cd = document.getElementById("countdown");
+  function tick() {
+    var ms = OPEN - new Date();
+    if (ms <= 0) { cd.textContent = "Jsme otevřeno"; return; }
+    var d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
+    cd.textContent = "Do otevření: " + d + " dní " + h + " h " + m + " min";
+  }
+  tick(); setInterval(tick, 30000);
+
+  // Keypad: type the last digit, then reset
+  var codeEl = document.getElementById("kp-code");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce) {
+    var digits = ["4", "8", "1", "7"], step = 3;
+    setInterval(function () {
+      var cells = codeEl.querySelectorAll("i");
+      step = (step + 1) % 5;
+      cells.forEach(function (c, i) {
+        if (i < step) { c.textContent = digits[i]; c.className = ""; }
+        else { c.textContent = "·"; c.className = "wait"; }
+      });
+    }, 900);
+  }
+
+  // Presale form
+  var qty = document.getElementById("f-qty");
+  var quick = document.querySelectorAll("#quick button");
+  function clamp(v) { v = parseInt(v, 10); if (isNaN(v) || v < 1) v = 1; if (v > left) v = Math.max(1, left); return v; }
+  function render() {
+    var q = clamp(qty.value);
+    document.getElementById("s-full").textContent = fmt(q * FULL);
+    document.getElementById("s-save").textContent = fmt(q * (FULL - PRICE));
+    document.getElementById("s-total").textContent = fmt(q * PRICE);
+    document.getElementById("f-total").value = q * PRICE;
+    quick.forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.q === q)); });
+  }
+  qty.addEventListener("input", render);
+  qty.addEventListener("change", function () { qty.value = clamp(qty.value); render(); });
+  document.getElementById("q-minus").onclick = function () { qty.value = clamp(+qty.value - 1); render(); };
+  document.getElementById("q-plus").onclick = function () { qty.value = clamp(+qty.value + 1); render(); };
+  quick.forEach(function (b) { b.onclick = function () { qty.value = clamp(b.dataset.q); render(); }; });
+  render();
+
+  var form = document.getElementById("presale");
+  var msg = document.getElementById("form-msg");
+  function show(text, kind) { msg.textContent = text; msg.className = "form-msg " + kind; msg.hidden = false; }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("f-name").value.trim();
+    var email = document.getElementById("f-email").value.trim();
+    var phone = document.getElementById("f-phone").value.trim();
+    if (!name || !email || !phone) { show("Vyplňte prosím jméno, e-mail a telefon.", "err"); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { show("E-mail nevypadá správně. Zkontrolujte ho prosím.", "err"); return; }
+    if (!document.getElementById("f-gdpr").checked) { show("Pro odeslání objednávky potvrďte souhlas se zpracováním údajů.", "err"); return; }
+    qty.value = clamp(qty.value); render();
+
+    var btn = document.getElementById("f-submit");
+    btn.disabled = true; btn.textContent = "Odesílám…";
+    var body = new URLSearchParams(new FormData(form)).toString();
+    fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        form.querySelectorAll(".field, .sum, .check, #f-submit").forEach(function (el) { el.hidden = true; });
+        show("Děkujeme, " + name.split(" ")[0] + ". Objednávka " + qty.value + " vstupů za " + fmt(qty.value * PRICE) + " je přijatá. Do 24 hodin vám na " + email + " pošleme platební údaje.", "ok");
+      })
+      .catch(function () {
+        show("Objednávku se nepodařilo odeslat. Zkuste to prosím za chvíli znovu.", "err");
+      })
+      .finally(function () { btn.disabled = false; btn.textContent = "Závazně objednat vstupy"; });
+  });
+})();
+</script>
+</body>
+</html>
