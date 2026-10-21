@@ -240,11 +240,13 @@ footer .base { grid-column: 1 / -1; border-top: 1px solid var(--edge); padding-t
 .draw .ctas { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .draw .fine { font-size: 13px; color: var(--dust); }
 
+.hero .grid > *, .offer .wrap > *, .draw .wrap > *, .buy > *, .head > *, .prices > * { min-width: 0; }
+
 .mobile-cta { display: none; }
 
 @media (max-width: 900px) {
   nav.links { display: none; }
-  .hero .grid, .offer .wrap, .head, .buy, .prices, .draw .wrap { grid-template-columns: 1fr; }
+  .hero .grid, .offer .wrap, .head, .buy, .prices, .draw .wrap { grid-template-columns: minmax(0, 1fr); }
   .keypad { justify-self: start; }
   .price-tag { text-align: left; }
   .steps { grid-template-columns: 1fr 1fr; }
@@ -266,6 +268,11 @@ footer .base { grid-column: 1 / -1; border-top: 1px solid var(--edge); padding-t
   .mobile-cta .btn { width: 100%; }
   footer { padding-bottom: 110px; }
   .slot .t1, .slot .t3 { font-size: 0; }
+  .hero h1 { font-size: clamp(28px, 10.5vw, 44px); }
+  .offer h2, .draw h2, .buy .pitch h2 { font-size: clamp(24px, 8.5vw, 34px); }
+  .head h2 { font-size: clamp(24px, 8vw, 32px); }
+  .price-tag strong { font-size: clamp(44px, 16vw, 64px); }
+  .logo span.sub { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
